@@ -16,3 +16,10 @@ class ProductsView(APIView):
         product = Product.objects.all()
         serializer = ProductSerializer(product, many=True)
         return Response(serializer.data)
+        
+class Address(APIView):
+    def get(self, request):
+        address = Address.objects.all()
+        serializer = ProductSerializer(product, many=True)
+        return Response(serializer.data)
+        
