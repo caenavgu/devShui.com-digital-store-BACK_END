@@ -12,19 +12,7 @@ def transactions(request, user_id):
     return HttpResponse("<h1>Here are the transactions for the user " + user_id + ".</h1>")
     
 class ProductsView(APIView):
-    def get(self, request, product_id):
-        product = Product.objects.get(pk=product_id)
-        serializer = ProductSerializer(product, many=False)
-        return Response(serializer.data)
-    
-    def put(self, request):
-        
-        # I get the content from the body request and convert it into a dictionary
-        body_unicode = request.body.decode('utf-8')
-        jsonObject = json.loads(body_unicode)
-        
-        newProduct = Product(name_product=jsonObject['name_product'],name_brand=jsonObject['name_brand'],description_product=jsonObject['description_product'],quantity=jsonObject['quantity'],)
-        newGame.save()
-        
-        serializer = GameSerializer(newGame, many=False)
+    def get(self, request):
+        product = Product.objects.all()
+        serializer = ProductSerializer(product, many=True)
         return Response(serializer.data)
