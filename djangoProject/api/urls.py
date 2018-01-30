@@ -21,6 +21,7 @@ urlpatterns = [
     path('user/<str:user_id>/transactions', views.transactions),
     path('user/<user_id>/orders/<str:status>', views.transactions),
     path('products/<str:product_id>', views.ProductsView.as_view()),
-    path('products/', views.ProductsView.as_view())
+    path('products/', views.ProductsView.as_view()),
+    path('user/<int:user_id>/address', views.AddressView.as_view())
 
 ]

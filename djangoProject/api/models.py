@@ -16,7 +16,7 @@ class Product(models.Model):
         ordering = ('name_product',)
         
 class Address(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     street_name_1 = models.CharField(max_length=30)
     city = models.CharField(max_length=30)
     state = models.CharField(max_length=30)
@@ -25,7 +25,7 @@ class Address(models.Model):
     special_notes = models.CharField(max_length=300,default=None)
 
     
-    def __str__(self):
+    def __int__(self):
         return self.zipcode
 
     class Meta:

@@ -3,8 +3,9 @@ import json
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .models import Product
-from .serializable import ProductSerializer
+from .models import Product, Address
+from .serializable import ProductSerializer, AddressSerializer
+
 
 # Create your views here.
 
@@ -17,9 +18,9 @@ class ProductsView(APIView):
         serializer = ProductSerializer(product, many=True)
         return Response(serializer.data)
         
-class Address(APIView):
-    def get(self, request):
-        address = Address.objects.all()
-        serializer = ProductSerializer(product, many=True)
+class AddressView(APIView):
+    def get(self, request, user_id):
+        address = Address.objects.all().filter(user_id = user_id)
+        serializer = AddressSerializer(address, many=True)
         return Response(serializer.data)
         
