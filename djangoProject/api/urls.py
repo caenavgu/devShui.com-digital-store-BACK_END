@@ -18,10 +18,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('user/<str:user_id>/transactions', views.transactions),
-    path('user/<user_id>/orders/<str:status>', views.transactions),
-    path('products/<str:product_id>', views.ProductsView.as_view()),
-    path('products/', views.ProductsView.as_view()),
-    path('user/<int:user_id>/address', views.AddressView.as_view())
+    # GET
+    path('user/<int:user_id>/address', views.AddressView.as_view()),
+    path('products/', views.ProductsView.as_view()),  #show all products
+    path('product/<str:product_id>', views.ProductView.as_view()), #show a particular product
+    
+    
+    
+    # path('products/<str:tags>', views.ProductsView.as_view()),
+    path('user/<str:user_id>/order', views.transactions),
+    path('user/<user_id>/order/<str:status>', views.transactions),
+    # path('user/<int:user_id>/transactions', views.TransactionsView.as_view()),
 
 ]
