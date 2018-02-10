@@ -19,15 +19,10 @@ from . import views
 
 urlpatterns = [
     # GET
-    path('user/<int:user_id>/address', views.AddressView.as_view()),
-    path('products/', views.ProductsView.as_view()),  #show all products
-    path('product/<str:product_id>', views.ProductView.as_view()), #show a particular product
-    
-    
-    
-    # path('products/<str:tags>', views.ProductsView.as_view()),
-    path('user/<str:user_id>/order', views.transactions),
-    path('user/<user_id>/order/<str:status>', views.transactions),
-    # path('user/<int:user_id>/transactions', views.TransactionsView.as_view()),
+    path('user/<int:user_id>/address/', views.AddressView.as_view()), #DONE 
+    path('tags/', views.TagView.as_view()), #DONE - Show all Tags
+    path('products/', views.ProductsView.as_view()),  #DONE - Show all Products
+    path('product/<str:product_id>/', views.ProductView.as_view()), #DONE - Show a particular product
+    path('user/<int:user_id>/shoppingcart/<int:shoppingcart_id>/', views.ShoppingCartView_User.as_view()), #DONE - Show user's shopping cart 
 
 ]
