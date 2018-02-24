@@ -5,6 +5,8 @@ from django.http import HttpResponse
 from rest_framework.views import APIView
 from .models import Product, Address, Order, ShoppingCart, ShoppingCartDetails, Payment
 from .serializable import  AddressSerializer, ProductsSerializer, ProductSerializer, ShoppingCartSerializer, TagSerializer
+from rest_framework.permissions import AllowAny
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 # Create your views here.
 
@@ -38,6 +40,12 @@ class ShoppingCartView_User(APIView):
         serializer = ShoppingCartSerializer(shoppingcart, many=True)
         return Response(serializer.data)
     
-
 def transactions(request, user_id):
     return HttpResponse("<h1>Here are the transactions for the user " + user_id + ".</h1>")
+    
+class ImageView(APIView):
+    def get(self, request, image_name):
+        permission_classes = (AllowAny,)
+        f = open('./static/'+image_name, 'rb')
+        return HttpResponse(f,content_type='image/png')
+        

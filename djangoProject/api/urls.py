@@ -24,5 +24,4 @@ urlpatterns = [
     path('products/', views.ProductsView.as_view()),  #DONE - Show all Products
     path('product/<str:product_id>/', views.ProductView.as_view()), #DONE - Show a particular product
     path('user/<int:user_id>/shoppingcart/<int:shoppingcart_id>/', views.ShoppingCartView_User.as_view()), #DONE - Show user's shopping cart 
-
 ]
