@@ -3,16 +3,84 @@ from django.shortcuts import render
 from rest_framework.response import Response
 from django.http import HttpResponse
 from rest_framework.views import APIView
-from .models import Product, Address, Order, ShoppingCart, ShoppingCartDetails, Payment
+from .models import Product, Address, Order, ShoppingCart, ShoppingCartDetails, Payment, User
 from .serializable import  AddressSerializer, ProductsSerializer, ProductSerializer, ShoppingCartSerializer, TagSerializer
 
 # Create your views here.
 
 class AddressView(APIView): #DONE
+    #GET
     def get(self, request, user_id):
-        address = Address.objects.all().filter(user_id = user_id)
+        address = Address.objects.all().filter(user = user_id)
         serializer = AddressSerializer(address, many=True)
         return Response(serializer.data)
+    #PUT
+    def put(self, request, user_id):
+        
+        # I get the content from the body request and convert it into a dictionary
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        
+        the_user = User.objects.get(id = user_id)
+        
+        newAddress = Address(user = the_user,
+        street_name = body['street_name'],
+        city = body['city'],
+        state = body['state'],
+        country = body['country'],
+        zipcode = body['zipcode'],
+        phone_number = body['phone_number'])
+        newAddress.save()
+        
+        serializer = AddressSerializer(newAddress, many=False)
+        return Response(serializer.data)
+    #DELETE
+    def delete(self, request, user_id):
+        
+        the_user = User.objects.get(id = user_id)
+        
+        address = Address.objects.all().filter(user=the_user)
+        address.delete()
+        
+        return Response("ok")
+    
+class AddressView_User(APIView): #DONE
+    #GET
+    def get(self, request, user_id, address_id):
+        address = Address.objects.all().filter(user = user_id, id = address_id)
+        serializer = AddressSerializer(address, many=True)
+        return Response(serializer.data)
+    #POST hacer una vista para un una direccion en especifica
+    def post(self, request, user_id, address_id):
+        # I get the content from the body request and convert it into a dictionary
+        body_unicode = request.body.decode('utf-8')
+        body = json.loads(body_unicode)
+        
+        the_user = User.objects.get(id = user_id)
+        
+        # Look for the game in the database and update the properties 
+        # based on what came from the request
+        address = Address.objects.get(pk= address_id)
+        address = Address.objects.get(user = the_user)
+        address.street_name = body['street_name']
+        address.city = body['city']
+        address.state = body['state']
+        address.country = body['country']
+        address.zipcode = body['zipcode']
+        address.phone_number = body['phone_number']
+        address.save()
+        # serialize the response object and pass it back
+        serializer = AddressSerializer(address, many=False)
+        return Response(serializer.data)
+    #DELETE
+    def delete(self, request, user_id, address_id):
+        
+        the_user = User.objects.get(id = user_id)
+        
+        address = Address.objects.get(user=the_user, id = address_id)
+        address.delete()
+        
+        return Response("ok")
     
 class TagView(APIView):
     def get(self, request):
@@ -21,6 +89,7 @@ class TagView(APIView):
         return Response(serializer.data)
         
 class ProductsView(APIView): 
+    #GET
     def get(self, request):
         products = Product.objects.all()
         serializer = ProductsSerializer(products, many=True)

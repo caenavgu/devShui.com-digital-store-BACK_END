@@ -18,11 +18,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    # GET
-    path('user/<int:user_id>/address/', views.AddressView.as_view()), #DONE 
+    
+    path('user/<int:user_id>/address/', views.AddressView.as_view()), #DONE: GET - PUT -DELETE 
+    path('user/<int:user_id>/address/<int:address_id>/', views.AddressView_User.as_view()), #DONE: GET - PUT -DELETE 
     path('tags/', views.TagView.as_view()), #DONE - Show all Tags
     path('products/', views.ProductsView.as_view()),  #DONE - Show all Products
     path('product/<str:product_id>/', views.ProductView.as_view()), #DONE - Show a particular product
-    path('user/<int:user_id>/shoppingcart/<int:shoppingcart_id>/', views.ShoppingCartView_User.as_view()), #DONE - Show user's shopping cart 
+    path('user/<int:user_id>/shoppingcart/<int:shoppingcart_id>/', views.ShoppingCartView_User.as_view()), #DONE - Show user's shopping cart
+    
+    
+    
 
 ]

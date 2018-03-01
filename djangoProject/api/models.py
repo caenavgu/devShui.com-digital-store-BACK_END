@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Address(models.Model):
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     street_name = models.CharField(max_length=140, default = None)
     city = models.CharField(max_length=30, default = None)
     state = models.CharField(max_length=30, default = None)
@@ -11,11 +11,10 @@ class Address(models.Model):
     zipcode = models.PositiveIntegerField(default = 00000)    
     phone_number = models.PositiveIntegerField( default = 0000000000)
 
-    def __int__(self):
-        return self.phone_number
-
+    def __str__(self):
+        return self.street_name
     class Meta:
-        ordering = ('user_id', 'id')
+        ordering = ('street_name', 'id', 'user')
         
 class Tag(models.Model):
     name_tag = models.CharField(max_length=30, default = None)
@@ -29,6 +28,7 @@ class Tag(models.Model):
         
 class Product(models.Model):
     PRODUCT_STATUS_CHOISE = (('AVAILABLE', 'available'), ('UNAVAILABLE', 'unavailable'))
+    url_image_product =  models.CharField(max_length=300, default = 'http://via.placeholder.com/300x300')
     name_product = models.CharField(max_length=30)
     name_brand = models.CharField(max_length=30, default = None)
     product_status = models.CharField(max_length=30, choices = PRODUCT_STATUS_CHOISE,  default = 'available')
@@ -49,11 +49,11 @@ class ShoppingCart(models.Model):
     status_shopping_cart = models.CharField(max_length=30, choices = SHOPPING_CART_STATUS_CHOISE, default='EMPTY')
     products_cart = models.ManyToManyField(Product, through='ShoppingCartDetails')
 
-    def __str__(self):
-        return self.order_status
+    def __int__(self):
+        return self.id
 
     class Meta:
-        ordering = ('id', 'user_id','status_shopping_cart')
+        ordering = ('id', 'user_id')
         
 class ShoppingCartDetails(models.Model):
     shopping_cart_id = models.ForeignKey(ShoppingCart, on_delete=models.CASCADE)
@@ -62,7 +62,7 @@ class ShoppingCartDetails(models.Model):
     total_price_product = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return self.order_status
+        return self.shopping_cart_id
 
     class Meta:
         ordering = ('id', 'product_id', 'quantity_product')
