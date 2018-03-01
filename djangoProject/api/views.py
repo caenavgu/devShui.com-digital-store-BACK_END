@@ -6,7 +6,6 @@ from rest_framework.views import APIView
 from .models import Product, Address, Order, ShoppingCart, ShoppingCartDetails, Payment, User
 from .serializable import  AddressSerializer, ProductsSerializer, ProductSerializer, ShoppingCartSerializer, TagSerializer
 from rest_framework.permissions import AllowAny
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 
 # Create your views here.
 
